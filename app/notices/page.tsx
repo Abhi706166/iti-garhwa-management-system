@@ -1,10 +1,9 @@
-export default function TradesPage() {
+export default function NoticesPage() {
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold">
-        Trades Page
+        Notices
       </h1>
-      <p>Trades content will appear here.</p>
     </div>
   );
 }
