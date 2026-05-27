@@ -11,7 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
-export default function DashboardPage() {
+export default function SuperAdminDashboard() {
   const router = useRouter();
 
   const [studentCount, setStudentCount] =
@@ -36,7 +36,7 @@ export default function DashboardPage() {
   const fetchDashboardData =
     async () => {
       try {
-        // students count
+        // Students count
         const {
           count: students,
         } = await supabase
@@ -46,7 +46,7 @@ export default function DashboardPage() {
             head: true,
           });
 
-        // employees count
+        // Employees count
         const {
           count: employees,
         } = await supabase
@@ -56,7 +56,7 @@ export default function DashboardPage() {
             head: true,
           });
 
-        // admins count
+        // Admin count
         const {
           count: admins,
         } = await supabase
@@ -66,7 +66,7 @@ export default function DashboardPage() {
             head: true,
           });
 
-        // notices count
+        // Notice count
         const {
           count: notices,
         } = await supabase
@@ -108,29 +108,46 @@ export default function DashboardPage() {
   };
 
   const stats = [
-  {
-    title: "Total Students",
-    count: studentCount,
-    icon: Users,
-    gradient:
-      "from-cyan-500 to-blue-600",
-  },
-  {
-    title: "Employees",
-    count: employeeCount,
-    icon: UserCog,
-    gradient:
-      "from-green-500 to-emerald-700",
-  },
-  {
-    title: "Notices",
-    count:
-  noticeCount,
-    icon: Bell,
-    gradient:
-      "from-orange-500 to-red-600",
-  },
-];
+    {
+      title:
+        "Total Students",
+      count:
+        studentCount,
+      icon: Users,
+      gradient:
+        "from-cyan-500 to-blue-600",
+    },
+    {
+      title:
+        "Employees",
+      count:
+        employeeCount,
+      icon: UserCog,
+      gradient:
+        "from-green-500 to-emerald-700",
+    },
+
+      {
+        title:
+          "Notices",
+        count:
+          noticeCount,
+        icon: Bell,
+        gradient:
+          "from-orange-500 to-red-600",
+      },
+
+    {
+      title:
+        "Admins",
+      count:
+        adminCount,
+      icon:
+        ShieldCheck,
+      gradient:
+        "from-purple-600 to-pink-600",
+    },
+  ];
 
   return (
     <div>
@@ -172,15 +189,15 @@ export default function DashboardPage() {
             Admin ID:
           </span>{" "}
           ADM-
-          {
-            String(
-              JSON.parse(
-                sessionStorage.getItem(
-                  "adminSession"
-                ) || "{}"
-              ).id
-            ).slice(0, 6)
-          }
+{
+  String(
+    JSON.parse(
+      sessionStorage.getItem(
+        "adminSession"
+      ) || "{}"
+    ).id
+  ).slice(0, 6)
+}
         </p>
 
         <p>
@@ -214,6 +231,22 @@ export default function DashboardPage() {
   </div>
 
   {/* Logout Button */}
+  {/* Right Side Buttons */}
+<div className="flex items-center gap-4">
+
+  {/* Add Admin Button */}
+  <button
+    onClick={() =>
+      router.push(
+        "/dashboard/super_admin/admins"
+      )
+    }
+    className="bg-green-500 hover:bg-green-600 transition px-8 py-4 rounded-2xl text-xl font-semibold shadow-lg"
+  >
+    + Add Admin
+  </button>
+
+  {/* Logout Button */}
   <button
     onClick={handleLogout}
     className="bg-red-500 hover:bg-red-600 transition px-8 py-4 rounded-2xl flex items-center gap-3 text-xl font-semibold shadow-lg"
@@ -222,9 +255,10 @@ export default function DashboardPage() {
     Logout
   </button>
 </div>
+</div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mt-10">
 
         {stats.map(
           (

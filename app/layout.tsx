@@ -1,5 +1,10 @@
 import "./globals.css";
 
+export const metadata = {
+  title: "ITI Garhwa Management System",
+  description: "ITI Garhwa Management System",
+};
+
 export default function RootLayout({
   children,
 }: {

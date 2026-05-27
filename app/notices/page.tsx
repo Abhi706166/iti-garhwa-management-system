@@ -2,7 +2,7 @@ export default function NoticesPage() {
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold">
-        Notices
+        Notice
       </h1>
     </div>
   );
