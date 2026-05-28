@@ -226,28 +226,48 @@ export default function EmployeesPage() {
       // Replace old image
       if (photo) {
         // Delete old photo
-        if (
-          editingEmployee.photo_url
-        ) {
+      if (
+        editingEmployee.photo_url
+      ) {
+        try {
+          const urlParts =
+            editingEmployee.photo_url.split("/");
+
           const oldFileName =
-            editingEmployee.photo_url.split(
-              "employee-photos/"
-            )[1];
+            urlParts[
+              urlParts.length - 1
+            ];
 
           if (oldFileName) {
-            await supabase.storage
-              .from(
-                "employee-photos"
-              )
-              .remove([
-                oldFileName,
-              ]);
+            const {
+              error: deleteError,
+            } =
+              await supabase.storage
+                .from(
+                  "employee-photos"
+                )
+                .remove([
+                  oldFileName,
+                ]);
+
+            if (deleteError) {
+              console.log(
+                "Old photo delete error:",
+                deleteError
+              );
+            }
           }
+        } catch (err) {
+          console.log(
+            "Photo delete failed:",
+            err
+          );
         }
+      }
 
         // Upload new photo
         const fileName =
-          `${Date.now()}-${photo.name}`;
+          `${editingEmployee.employee_id}-${Date.now()}`;
 
         const {
           error: uploadError,
