@@ -583,15 +583,19 @@ const departments = [
                   </td>
 
                   <td className="p-4">
-                    {employee.photo_url && (
-                      <img
-                        src={
-                          employee.photo_url
-                        }
-                        alt="Employee"
-                        className="w-14 h-14 rounded-full object-cover"
-                      />
-                    )}
+                    <img
+                      src={
+                        employee.photo_url
+                          ? employee.photo_url
+                          : "/default_user.png"
+                      }
+                      alt="Employee"
+                      className="w-14 h-14 rounded-full object-cover border border-gray-300"
+                      onError={(e) => {
+                        e.currentTarget.src =
+                          "/default_user.png";
+                      }}
+                    />
                   </td>
 
                   <td className="p-4">
