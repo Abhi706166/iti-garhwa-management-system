@@ -40,6 +40,9 @@ export default function EmployeesPage() {
   const [mobile, setMobile] =
     useState("");
 
+  const [email, setEmail] =
+  useState("");
+
   const [salary, setSalary] =
     useState("");
 
@@ -137,6 +140,9 @@ export default function EmployeesPage() {
 
               mobile:
                 mobile.trim(),
+
+              email:
+                email.trim(),
 
               salary:
                 Number(salary),
@@ -243,6 +249,9 @@ export default function EmployeesPage() {
             mobile:
               mobile.trim(),
 
+            email:
+              email.trim(),
+
             salary:
               Number(salary),
 
@@ -348,6 +357,7 @@ export default function EmployeesPage() {
     setDesignation("");
     setDepartment("");
     setMobile("");
+    setEmail("");
     setSalary("");
     setJoiningDate("");
     setPhoto(null);
@@ -496,6 +506,10 @@ const departments = [
               </th>
 
               <th className="p-4 text-left">
+                Email
+              </th>
+
+              <th className="p-4 text-left">
                 Salary
               </th>
 
@@ -559,6 +573,10 @@ const departments = [
                   </td>
 
                   <td className="p-4">
+                    {employee.email || "—"}
+                  </td>
+
+                  <td className="p-4">
                     ₹ {
                       employee.salary
                     }
@@ -596,6 +614,10 @@ const departments = [
 
                         setMobile(
                           employee.mobile
+                        );
+
+                        setEmail(
+                          employee.email
                         );
 
                         setSalary(
@@ -724,6 +746,18 @@ const departments = [
                   className="w-full outline-none"
                 />
               </div>
+
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  value={email}
+                  onChange={(e) =>
+                    setEmail(
+                      e.target.value
+                    )
+                  }
+                  className="w-full border p-3 rounded-lg"
+                />
 
               <input
                 type="number"
