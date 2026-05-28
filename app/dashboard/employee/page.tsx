@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
 export default function EmployeesPage() {
-  const [employees, setEmployees] =
-    useState<any[]>([]);
+  const [employees, setEmployees] = useState<any[]>([]);
 
   const [search, setSearch] =
     useState("");
@@ -40,8 +39,7 @@ export default function EmployeesPage() {
   const [mobile, setMobile] =
     useState("");
 
-  const [email, setEmail] =
-  useState("");
+  const [email, setEmail] = useState("");
 
   const [salary, setSalary] =
     useState("");
@@ -73,6 +71,8 @@ export default function EmployeesPage() {
 
     setEmployees(data || []);
   };
+
+  
 
   // ADD EMPLOYEE
   const addEmployee = async () => {
@@ -110,6 +110,28 @@ export default function EmployeesPage() {
           data.publicUrl;
       }
 
+        // Email validation
+       if (
+        email.trim() &&
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+      ) {
+          alert("Enter valid email");
+          return;
+        }
+
+      // Required validation
+      if (!name.trim()) {
+        alert("Employee name is required");
+        return;
+      }
+
+      if (mobile.length !== 10) {
+        alert(
+          "Enter valid mobile number"
+        );
+        return;
+      }
+
       // Generate Employee ID
       const employeeId =
         Math.floor(
@@ -142,10 +164,9 @@ export default function EmployeesPage() {
                 mobile.trim(),
 
               email:
-                email.trim(),
+                email.trim() || null,
 
-              salary:
-                Number(salary),
+              salary: Number(salary) || 0,
 
               joining_date:
                 joiningDate,
@@ -179,6 +200,28 @@ export default function EmployeesPage() {
 
       let photoUrl =
         editingEmployee.photo_url || "";
+
+        // Email validation
+      if (
+        email.trim() &&
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+      ){
+        alert("Enter valid email");
+        return;
+      }
+
+      // Required validation
+      if (!name.trim()) {
+        alert("Employee name is required");
+        return;
+      }
+
+      if (mobile.length !== 10) {
+        alert(
+          "Enter valid mobile number"
+        );
+        return;
+      }
 
       // Replace old image
       if (photo) {
@@ -250,10 +293,9 @@ export default function EmployeesPage() {
               mobile.trim(),
 
             email:
-              email.trim(),
+              email.trim() || null,
 
-            salary:
-              Number(salary),
+            salary: Number(salary) || 0,
 
             joining_date:
               joiningDate,
@@ -399,10 +441,12 @@ export default function EmployeesPage() {
 const departments = [
   "All",
   ...new Set(
-    employees.map(
-      (employee) =>
-        employee.department
-    )
+    employees
+      .map(
+        (employee) =>
+          employee.department
+      )
+      .filter(Boolean)
   ),
 ];
 
@@ -600,6 +644,8 @@ const departments = [
                           employee
                         );
 
+                        setPhoto(null);
+
                         setName(
                           employee.name
                         );
@@ -617,7 +663,7 @@ const departments = [
                         );
 
                         setEmail(
-                          employee.email
+                          employee.email || ""
                         );
 
                         setSalary(
@@ -667,9 +713,7 @@ const departments = [
               </h2>
 
               <button
-                onClick={() =>
-                  setShowForm(false)
-                }
+                onClick={resetForm}
                 className="text-red-500 text-xl"
               >
                 ✕
